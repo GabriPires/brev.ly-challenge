@@ -3,18 +3,23 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { createNewLink } from '@/services/links/create-new-link'
 
 const newLinkFormSchema = z.object({
   originalUrl: z.string().url('URL inválida'),
-  shortUrl: z.string().url('URL inválida'),
+  shortUrl: z.string().optional(),
 })
 
 type NewLinkFormData = z.infer<typeof newLinkFormSchema>
 
 export function NewLinkForm() {
+  const queryClient = useQueryClient()
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<NewLinkFormData>({
     resolver: zodResolver(newLinkFormSchema),
@@ -24,8 +29,19 @@ export function NewLinkForm() {
     },
   })
 
-  function onSubmit(data: NewLinkFormData) {
-    console.log(data)
+  const { mutateAsync: newLink, isPending } = useMutation({
+    mutationFn: async (data: NewLinkFormData) => {
+      const response = await createNewLink(data)
+      return response.data
+    },
+    onSuccess: async () => {
+      reset()
+      await queryClient.invalidateQueries({ queryKey: ['my-links'] })
+    },
+  })
+
+  async function onSubmit(data: NewLinkFormData) {
+    await newLink(data)
   }
 
   return (
@@ -50,7 +66,9 @@ export function NewLinkForm() {
         />
       </div>
 
-      <Button>Salvar link</Button>
+      <Button type="submit" disabled={isPending}>
+        Salvar link
+      </Button>
     </form>
   )
 }
