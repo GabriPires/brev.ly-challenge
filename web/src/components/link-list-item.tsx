@@ -16,7 +16,7 @@ export function LinkListItem({ link }: LinkListItemProps) {
   const queryClient = useQueryClient()
 
   function copyToClipboard(text: string) {
-    navigator.clipboard.writeText(text)
+    navigator.clipboard.writeText(`${window.location.origin}/${text}`)
   }
 
   const { mutateAsync: deleteLinkFn, isPending } = useMutation({
