@@ -79,10 +79,12 @@ Uma aplicação completa para encurtamento de URLs, desenvolvida com tecnologias
 
 ```env
 DATABASE_URL="postgresql://docker:docker@localhost:5432/brevly"
-AWS_ACCESS_KEY_ID="your-aws-access-key"
-AWS_SECRET_ACCESS_KEY="your-aws-secret-key"
-AWS_REGION="your-aws-region"
-AWS_BUCKET_NAME="your-s3-bucket-name"
+CLOUDFLARE_ACCOUNT_ID="your-cloudflare-account-id"
+CLOUDFLARE_ACCESS_KEY_ID="your-cloudflare-access-key"
+CLOUDFLARE_SECRET_ACCESS_KEY="your-cloudflare-secret-access-key"
+CLOUDFLARE_BUCKET="your-cloudflare-bucket"
+CLOUDFLARE_PUBLIC_URL="your-cloudflare-public-url"
+SHORTENER_BASE_URL="http://localhost:3000/links/"
 ```
 
 #### Frontend (`web/.env`)
