@@ -2,9 +2,10 @@ import { DownloadSimple } from '@phosphor-icons/react'
 import { Button } from './ui/button'
 import { LinkListItem } from './link-list-item'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { getMyLinks } from '@/services/links/get-my-links'
 import { Skeleton } from './ui/skeleton'
+import { exportLinks } from '@/services/links/export-links'
 
 export function MyLinks() {
   const { data: myLinksData, isLoading: isLoadingMyLinks } = useQuery({
@@ -15,11 +16,37 @@ export function MyLinks() {
     },
   })
 
+  const { mutateAsync: exportMyLinks, isPending: isLoadingExportMyLinks } =
+    useMutation({
+      mutationFn: async () => {
+        const response = await exportLinks()
+
+        const reportUrl = response.data.reportUrl
+
+        if (reportUrl) {
+          const link = document.createElement('a')
+          link.href = reportUrl
+          link.setAttribute('download', 'meus-links.csv')
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        }
+
+        return reportUrl
+      },
+    })
+
   return (
     <div className="flex flex-col bg-white p-6 w-full rounded-lg gap-5 mt-3 mb-4 lg:col-span-3 lg:mt-0 lg:mb-0">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold">Meus Links</h2>
-        <Button variant="secondary">
+        <Button
+          variant="secondary"
+          disabled={isLoadingExportMyLinks}
+          onClick={async () => {
+            await exportMyLinks()
+          }}
+        >
           <DownloadSimple size={16} className="mr-1.5" />
           Baixar CSV
         </Button>
