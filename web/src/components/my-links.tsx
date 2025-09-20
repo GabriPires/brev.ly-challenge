@@ -26,6 +26,7 @@ export function MyLinks() {
         if (reportUrl) {
           const link = document.createElement('a')
           link.href = reportUrl
+          link.target = '_blank'
           link.setAttribute('download', 'meus-links.csv')
           document.body.appendChild(link)
           link.click()
