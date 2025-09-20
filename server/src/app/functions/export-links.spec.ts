@@ -66,42 +66,36 @@ describe('export links', () => {
       expect.arrayContaining([
         [
           'Original URL',
-          'Short Hash',
           'Shortened URL',
           'Access Count',
           'Created At',
         ],
         [
           link1.originalUrl,
-          link1.shortHash,
           expect.any(String),
           expect.any(String),
           expect.any(String),
         ],
         [
           link2.originalUrl,
-          link2.shortHash,
           expect.any(String),
           expect.any(String),
           expect.any(String),
         ],
         [
           link3.originalUrl,
-          link3.shortHash,
           expect.any(String),
           expect.any(String),
           expect.any(String),
         ],
         [
           link4.originalUrl,
-          link4.shortHash,
           expect.any(String),
           expect.any(String),
           expect.any(String),
         ],
         [
           link5.originalUrl,
-          link5.shortHash,
           expect.any(String),
           expect.any(String),
           expect.any(String),

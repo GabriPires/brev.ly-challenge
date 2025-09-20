@@ -9,7 +9,7 @@ import  { ResourceAlreadyExists } from './errors/resource-already-exists'
 
 const createLinkInput = z.object({
   originalUrl: z.string().url(),
-  shortUrl: z.string().optional(),
+  shortUrl: z.string().regex(/^[a-zA-Z0-9_-]+$/, 'Short URL deve conter apenas letras, números, hifens e underscores').optional(),
 })
 
 type CreateLinkInput = z.input<typeof createLinkInput>
