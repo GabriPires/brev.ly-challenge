@@ -16,7 +16,6 @@ export async function exportLinks(): Promise<Either<never, ExportLinksOutput>> {
   const { sql: rawSql, params } = db
     .select({
       originalUrl: schema.link.originalUrl,
-      shortHash: schema.link.shortHash,
       shortenedUrl:
         sql<string>`${env.SHORTENER_BASE_URL} || ${schema.link.shortHash}`.as(
           'shortened_url'
@@ -34,7 +33,6 @@ export async function exportLinks(): Promise<Either<never, ExportLinksOutput>> {
     header: true,
     columns: [
       { key: 'original_url', header: 'Original URL' },
-      { key: 'short_hash', header: 'Short Hash' },
       { key: 'shortened_url', header: 'Shortened URL' },
       { key: 'access_count', header: 'Access Count' },
       { key: 'created_at', header: 'Created At' },
