@@ -1,4 +1,4 @@
-import { type Icon } from '@phosphor-icons/react'
+import { CircleNotch, type Icon } from '@phosphor-icons/react'
 import type { ComponentProps } from 'react'
 import { tv, type VariantProps } from 'tailwind-variants'
 
@@ -15,17 +15,23 @@ const iconButton = tv({
 type IconButtonProps = Omit<ComponentProps<'button'>, 'children'> &
   VariantProps<typeof iconButton> & {
     icon: Icon
+    isLoading?: boolean
   }
 
 export function IconButton({
   className,
   variant = 'primary',
+  isLoading = false,
   icon: Icon,
   ...props
 }: IconButtonProps) {
   return (
     <button className={iconButton({ variant, className })} {...props}>
-      {<Icon size={16} />}
+      {isLoading ? (
+        <CircleNotch className="animate-spin" />
+      ) : (
+        <Icon size={16} />
+      )}
     </button>
   )
 }

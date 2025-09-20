@@ -5,10 +5,17 @@ import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createNewLink } from '@/services/links/create-new-link'
+import { toast } from 'sonner'
 
 const newLinkFormSchema = z.object({
   originalUrl: z.string().url('URL inválida'),
-  shortUrl: z.string().optional(),
+  shortUrl: z
+    .string()
+    .regex(
+      /^[a-zA-Z0-9_-]+$/,
+      'URL encurtada inválida. Use apenas letras, números, hifens e underscores',
+    )
+    .optional(),
 })
 
 type NewLinkFormData = z.infer<typeof newLinkFormSchema>
@@ -37,6 +44,7 @@ export function NewLinkForm() {
     onSuccess: async () => {
       reset()
       await queryClient.invalidateQueries({ queryKey: ['my-links'] })
+      toast.success('Link criado com sucesso!')
     },
   })
 
