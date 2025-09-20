@@ -60,7 +60,7 @@ export function NewLinkForm() {
         />
         <Input
           label="Link encurtado"
-          placeholder="brev.ly/"
+          prefix="brev.ly/"
           errorMessage={errors.shortUrl?.message}
           {...register('shortUrl')}
         />

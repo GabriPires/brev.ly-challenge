@@ -5,6 +5,7 @@ import { twMerge } from 'tailwind-merge'
 type InputProps = ComponentProps<'input'> & {
   label?: string
   errorMessage?: string
+  prefix?: string
 }
 
 export function Input({
@@ -12,6 +13,7 @@ export function Input({
   placeholder,
   className,
   errorMessage,
+  prefix,
   id,
   ...props
 }: InputProps) {
@@ -25,12 +27,13 @@ export function Input({
           {label}
         </label>
       )}
-      <div className="flex w-full h-12 ring-[1.5px] ring-gray-300 rounded-md px-4 group-focus-within:ring-blue-base group-data-[error=true]:ring-danger">
+      <div className="flex w-full items-center h-12 ring-[1.5px] ring-gray-300 rounded-md px-4 group-focus-within:ring-blue-base group-data-[error=true]:ring-danger">
+        {prefix && <span className="text-gray-400">{prefix}</span>}
         <input
           id={id}
           placeholder={placeholder}
           className={twMerge(
-            'w-full outline-none text text-gray-600 placeholder:text-gray-400',
+            'w-full h-full outline-none text text-gray-600 placeholder:text-gray-400',
             className,
           )}
           {...props}
