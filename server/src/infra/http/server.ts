@@ -34,7 +34,11 @@ server.setErrorHandler((error, request, reply) => {
   })
 })
 
-server.register(fastifyCors, { origin: '*' })
+server.register(fastifyCors, { 
+  origin: ['http://localhost:5173'],
+  methods: ['GET', 'POST', 'DELETE'],
+  optionsSuccessStatus: 204
+})
 
 server.register(createLinkRoute)
 server.register(getLinksRoute)
